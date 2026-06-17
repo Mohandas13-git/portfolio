@@ -4,10 +4,10 @@ export const siteConfig = {
   headline:
     "Aspiring software engineer building backend systems, distributed infrastructure, and scalable software.",
   shortHeadline: "Backend-leaning CS student, building systems that hold up under load.",
-  location: "India", // TODO: replace with your city, e.g. "Bengaluru, India"
-  email: "mohandas.rathod@example.com", // TODO: replace with your real email
-  github: "https://github.com/your-username", // TODO: replace with your GitHub
-  linkedin: "https://linkedin.com/in/your-username", // TODO: replace with your LinkedIn
+  location: "Bengaluru, India",
+  email: "rathodmohandas9@gmail.com",
+  github: "https://github.com/Mohandas13-git",
+  linkedin: "https://www.linkedin.com/in/mohandas-rathod-741352389",
   resumeUrl: "/resume.pdf", // TODO: drop your resume PDF in /public/resume.pdf
   url: "https://mohandasrathod.dev", // TODO: replace with your deployed domain
   status: "available" as const,
