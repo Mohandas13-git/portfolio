@@ -115,7 +115,7 @@ export function AcademicProjects() {
             <h3 className="font-display text-lg font-medium text-accent">Pro-Tips for System Builds</h3>
             <ol className="mt-4 list-decimal space-y-4 pl-5 text-sm leading-relaxed text-muted sm:text-base">
               <li>
-                <strong className="text-ink">Don't use high-level frameworks:</strong> If you are building a web server, don't use Express or Flask; use raw TCP sockets. If you are building a database, use raw file I/O operations (open, read, write).
+                <strong className="text-ink">Don&apos;t use high-level frameworks:</strong> If you are building a web server, don&apos;t use Express or Flask; use raw TCP sockets. If you are building a database, use raw file I/O operations (open, read, write).
               </li>
               <li>
                 <strong className="text-ink">Embrace the constraints:</strong> Try writing these in systems languages like <strong className="text-ink">C, C++, Rust, or Go</strong>. Managing your own bytes, pointers, or concurrency primitives forces you to understand why modern languages do what they do.
