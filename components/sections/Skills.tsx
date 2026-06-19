@@ -1,70 +1,65 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Container } from "@/components/ui/Container";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { interests, skillGroups } from "@/lib/data";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { SkillSpheres } from "@/components/3d/SkillSpheres";
+import { skillGroups } from "@/lib/data";
 
 export function Skills() {
+  const container = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ["start end", "end start"],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [50, -50]);
+
   return (
-    <section id="skills" className="py-24 sm:py-28">
-      <Container>
-        <SectionHeading
-          eyebrow="Skills"
-          title="The stack underneath the projects"
-          description="Grouped by what each tool is actually for, not just listed."
-        />
+    <section ref={container} className="relative py-32 px-6 md:px-20 overflow-hidden bg-surface-2/10">
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 items-center">
+        
+        <div className="flex-1 space-y-12">
+          <motion.div style={{ y }}>
+            <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-4">
+              Technical <br />
+              <span className="text-muted">Arsenal.</span>
+            </h2>
+            <p className="text-lg text-muted/80 max-w-md">
+              The tools and technologies I use to bring ideas to life. From low-level systems to high-end interfaces.
+            </p>
+          </motion.div>
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {skillGroups.map((group, groupIdx) => (
-            <motion.div
-              key={group.title}
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.4, delay: groupIdx * 0.06 }}
-              whileHover={{ y: -4 }}
-              className="group flex flex-col rounded-xl border border-border bg-surface p-5 transition-colors hover:border-accent/50"
-            >
-              <h3 className="font-display text-base font-medium text-ink">{group.title}</h3>
-              <p className="mt-1 text-xs text-muted">{group.blurb}</p>
-
-              <ul className="mt-5 flex flex-wrap gap-2">
-                {group.items.map((item) => (
-                  <li
-                    key={item}
-                    className="rounded-md border border-border bg-surface2 px-2.5 py-1.5 font-mono text-[11px] text-ink transition-colors group-hover:border-border hover:!border-accent/60 hover:!text-accent"
-                  >
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.4, delay: 0.2 }}
-          className="mt-8 rounded-xl border border-border bg-surface p-5"
-        >
-          <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-muted">
-            Areas of interest
-          </p>
-          <div className="flex flex-wrap gap-2.5">
-            {interests.map((interest) => (
-              <span
-                key={interest}
-                className="rounded-full border border-border px-3.5 py-1.5 text-sm text-ink transition-colors hover:border-accent/60 hover:text-accent"
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {skillGroups.map((group, i) => (
+              <motion.div 
+                key={group.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="space-y-4"
               >
-                {interest}
-              </span>
+                <h3 className="text-xl font-semibold text-white/90">{group.title}</h3>
+                <div className="flex flex-wrap gap-2">
+                  {group.items.map(skill => (
+                    <span 
+                      key={skill} 
+                      className="px-4 py-2 rounded-full border border-white/10 bg-white/5 text-sm text-white/80 hover:bg-white/10 hover:border-white/30 transition-colors"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
             ))}
           </div>
-        </motion.div>
-      </Container>
+        </div>
+
+        <div className="flex-1 w-full relative">
+          <SkillSpheres />
+        </div>
+
+      </div>
     </section>
   );
 }

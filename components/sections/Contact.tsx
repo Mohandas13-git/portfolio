@@ -1,155 +1,143 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Github, Linkedin, Mail, Send } from "lucide-react";
-import { Container } from "@/components/ui/Container";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 import { siteConfig } from "@/lib/constants";
-
-type Status = "idle" | "sent";
+import { Mail, Github, Linkedin, ArrowUpRight, Send } from "lucide-react";
 
 export function Contact() {
-  const [status, setStatus] = useState<Status>("idle");
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    const subject = encodeURIComponent(`Portfolio contact from ${form.name || "a visitor"}`);
-    const body = encodeURIComponent(
-      `${form.message}\n\n— ${form.name} (${form.email})`
-    );
-    window.location.href = `mailto:${siteConfig.email}?subject=${subject}&body=${body}`;
-    setStatus("sent");
-  }
+  const formRef = useRef<HTMLFormElement>(null);
 
   return (
-    <section id="contact" className="py-24 sm:py-28">
-      <Container>
-        <SectionHeading
-          eyebrow="Contact"
-          title="Let's talk"
-          description="Open to internships, placements, and software engineering roles — reach out directly or use the form."
-        />
+    <section id="contact" className="relative py-32 px-6 md:px-20 overflow-hidden">
+      <div className="max-w-5xl mx-auto">
 
-        <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
-          <div className="flex flex-col gap-4">
-            <a
-              href={`mailto:${siteConfig.email}`}
-              className="flex items-center gap-3 rounded-xl border border-border bg-surface p-4 transition-colors hover:border-accent/50"
-            >
-              <span className="flex h-10 w-10 items-center justify-center rounded-md border border-border bg-surface2 text-accent">
-                <Mail size={16} />
-              </span>
-              <div>
-                <p className="text-sm font-medium text-ink">Email</p>
-                <p className="font-mono text-xs text-muted">{siteConfig.email}</p>
-              </div>
-            </a>
-            <a
-              href={siteConfig.github}
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-3 rounded-xl border border-border bg-surface p-4 transition-colors hover:border-accent/50"
-            >
-              <span className="flex h-10 w-10 items-center justify-center rounded-md border border-border bg-surface2 text-accent">
-                <Github size={16} />
-              </span>
-              <div>
-                <p className="text-sm font-medium text-ink">GitHub</p>
-                <p className="font-mono text-xs text-muted">{siteConfig.github.replace("https://", "")}</p>
-              </div>
-            </a>
-            <a
-              href={siteConfig.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-3 rounded-xl border border-border bg-surface p-4 transition-colors hover:border-accent/50"
-            >
-              <span className="flex h-10 w-10 items-center justify-center rounded-md border border-border bg-surface2 text-accent">
-                <Linkedin size={16} />
-              </span>
-              <div>
-                <p className="text-sm font-medium text-ink">LinkedIn</p>
-                <p className="font-mono text-xs text-muted">{siteConfig.linkedin.replace("https://", "")}</p>
-              </div>
-            </a>
-          </div>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center space-y-6 mb-20"
+        >
+          <h2 className="text-5xl md:text-8xl font-bold tracking-tighter">
+            Let&apos;s Build
+            <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-500">
+              Something Great.
+            </span>
+          </h2>
+          <p className="text-lg text-zinc-500 max-w-xl mx-auto">
+            I&apos;m open to internships, SWE roles, and interesting collaboration opportunities.
+            Let&apos;s connect.
+          </p>
+        </motion.div>
 
-          <motion.form
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.4 }}
-            onSubmit={handleSubmit}
-            className="rounded-xl border border-border bg-surface p-6"
-          >
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor="name" className="font-mono text-[11px] uppercase tracking-wide text-muted">
-                  Name
-                </label>
-                <input
-                  id="name"
-                  required
-                  value={form.name}
-                  onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-                  className="rounded-md border border-border bg-bg px-3 py-2.5 text-sm text-ink outline-none focus:border-accent/60"
-                  placeholder="Your name"
-                />
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor="email" className="font-mono text-[11px] uppercase tracking-wide text-muted">
-                  Email
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  required
-                  value={form.email}
-                  onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-                  className="rounded-md border border-border bg-bg px-3 py-2.5 text-sm text-ink outline-none focus:border-accent/60"
-                  placeholder="you@example.com"
-                />
-              </div>
-            </div>
-
-            <div className="mt-4 flex flex-col gap-1.5">
-              <label htmlFor="message" className="font-mono text-[11px] uppercase tracking-wide text-muted">
-                Message
-              </label>
-              <textarea
-                id="message"
-                required
-                rows={5}
-                value={form.message}
-                onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
-                className="resize-none rounded-md border border-border bg-bg px-3 py-2.5 text-sm text-ink outline-none focus:border-accent/60"
-                placeholder="What would you like to talk about?"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="mt-5 inline-flex items-center gap-2 rounded-md bg-accent px-5 py-2.5 text-sm font-medium text-bg transition-colors hover:bg-accent/90"
-            >
-              <Send size={14} />
-              Send message
-            </button>
-
-            {status === "sent" ? (
-              <p className="mt-3 font-mono text-xs text-signal">
-                Opening your email client with this message pre-filled.
-              </p>
-            ) : (
-              <p className="mt-3 text-xs text-muted">
-                Submitting opens your email client with this pre-filled. Replace with a
-                Formspree/Resend endpoint for a backend-free send.
-              </p>
-            )}
-          </motion.form>
+        {/* Contact Links */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+          <ContactLink
+            href={`mailto:${siteConfig.email}`}
+            icon={<Mail size={24} />}
+            label="Email"
+            value={siteConfig.email}
+            delay={0}
+          />
+          <ContactLink
+            href={siteConfig.github}
+            icon={<Github size={24} />}
+            label="GitHub"
+            value="@Mohandas13-git"
+            delay={0.1}
+          />
+          <ContactLink
+            href={siteConfig.linkedin}
+            icon={<Linkedin size={24} />}
+            label="LinkedIn"
+            value="Mohandas Rathod"
+            delay={0.2}
+          />
         </div>
-      </Container>
+
+        {/* CTA Button */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+          className="text-center"
+        >
+          <MagneticButton href={`mailto:${siteConfig.email}`}>
+            <span className="flex items-center gap-3">
+              <Send size={18} />
+              Get in Touch
+            </span>
+          </MagneticButton>
+        </motion.div>
+
+      </div>
+
+      {/* Bottom gradient */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#050505] to-transparent pointer-events-none" />
     </section>
+  );
+}
+
+function ContactLink({ href, icon, label, value, delay }: {
+  href: string;
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+  delay: number;
+}) {
+  return (
+    <motion.a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
+      className="glass rounded-2xl p-8 flex items-center gap-6 group hover:border-white/20 transition-all duration-500 hover:shadow-[0_0_40px_rgba(255,255,255,0.05)]"
+    >
+      <div className="w-14 h-14 shrink-0 rounded-2xl bg-white/5 flex items-center justify-center text-white/60 group-hover:bg-white/10 group-hover:text-white transition-all">
+        {icon}
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-xs uppercase tracking-widest text-zinc-600 mb-1">{label}</p>
+        <p className="text-white font-medium truncate">{value}</p>
+      </div>
+      <ArrowUpRight size={18} className="text-zinc-600 group-hover:text-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
+    </motion.a>
+  );
+}
+
+function MagneticButton({ href, children }: { href: string; children: React.ReactNode }) {
+  const buttonRef = useRef<HTMLAnchorElement>(null);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!buttonRef.current) return;
+    const rect = buttonRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    setPosition({ x: x * 0.3, y: y * 0.3 });
+  };
+
+  const handleMouseLeave = () => {
+    setPosition({ x: 0, y: 0 });
+  };
+
+  return (
+    <motion.a
+      ref={buttonRef}
+      href={href}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      animate={{ x: position.x, y: position.y }}
+      transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
+      className="inline-flex items-center gap-2 px-10 py-5 rounded-full border border-white/20 bg-white/5 text-white font-semibold text-lg hover:bg-white hover:text-black transition-colors duration-500"
+    >
+      {children}
+    </motion.a>
   );
 }
